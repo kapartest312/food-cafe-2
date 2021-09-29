@@ -1,0 +1,20 @@
+.user-card {
+  &_info {
+    position: relative;
+    width: 25%;
+    &:not(:last-child) {
+      padding-right: 10px;
+      margin-right: 10px;
+      &:before {
+        position: absolute;
+        content: "";
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        height: 100%;
+        width: 1px;
+        background-color: $light-gray;
+      }
+    }
+  }
+}

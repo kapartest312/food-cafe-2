@@ -1,0 +1,60 @@
+.coworking-card {
+  &_info {
+    position: relative;
+    &:not(:last-child) {
+      padding-right: 10px;
+      margin-right: 10px;
+      &:before {
+        position: absolute;
+        content: "";
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        height: 100%;
+        width: 1px;
+        background-color: $light-gray;
+      }
+    }
+    &._name {
+      width: 25%;
+    }
+    &._chain {
+      width: 17%;
+    }
+    &._preview {
+      width: 100px;
+      img {
+        width: 100%;
+        border-radius: $smBorderRadius;
+      }
+    }
+    &._price {
+      width: 140px;
+    }
+    &._seats {
+      width: 120px;
+    }
+    &._status {
+      width: 60px;
+    }
+    &._more {
+      margin-left: auto;
+      flex: 0 0 auto;
+      text-align: center;
+      .btn-custom {
+        font-size: $smFontSize;
+      }
+    }
+    &__status {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+    &__active-status {
+      background: green;
+    }
+    &__inactive-status {
+      background: red;
+    }
+  }
+}
