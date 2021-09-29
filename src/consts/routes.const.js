@@ -1,11 +1,2 @@
 export const MAIN_PAGE = "/";
-export const LOGIN_PAGE = "/login";
-export const STATIC_PAGE = "/static";
-export const COWORKING_PAGE = "/coworking";
-export const CREATE_COWORKING_PAGE = "/coworking/coworking-create";
-export const EDIT_COWORKING_PAGE = "/coworking/coworking-edit/:coworkingId";
-export const toEditCoworkingPage = (id) => `/coworking/coworking-edit/${id}`;
-export const NETWORKS_PAGE = "/networks";
-export const CREATE_NETWORK_PAGE = "/networks/network-create";
-export const USERS_PAGE = "/users";
 export const RESERVES_PAGE = "/reserves";

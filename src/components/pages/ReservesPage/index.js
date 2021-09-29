@@ -7,8 +7,6 @@ import cross from "../../../common/images/svg/cross.svg";
 import warning from "../../../common/images/svg/warning.svg";
 
 import Layout from "../../segments/Layout";
-import ReservesCard from "./components/ReservesCard";
-import {TabsComponent} from "../../Tabs/TabsComponent";
 import {
   reservesData1,
   reservesData2,
