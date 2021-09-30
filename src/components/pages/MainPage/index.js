@@ -1,23 +1,44 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {inject, observer} from "mobx-react";
+import {useHistory} from "react-router-dom";
 import {NavLink} from "react-router-dom";
+import OtpInput from "react-otp-input";
+
 import logo from "../../../common/images/svg/logo.svg";
 
 import Layout from "../../segments/Layout";
 
-import {RESERVES_PAGE} from "../../../consts/routes.const";
+import {RESERVES_PAGE, MAIN_PAGE} from "../../../consts/routes.const";
 
 const MainPage = inject("store")(
-  observer(({store: {file}}) => {
+  observer(({store: {reserves}}) => {
+    let history = useHistory();
+    const [state, setState] = useState("");
+
+    function handleChange(otp) {
+      if (otp.length === 4) {
+        reserves.setLastDigitsOfNumber(otp);
+      }
+      setState({otp});
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      reserves.getReservesData(reserves.lastDigitsOfNumber).then(function (data) {
+        history.push(RESERVES_PAGE + `?digits=${reserves.lastDigitsOfNumber}`);
+      });
+      // console.log(reserves.getReservesData(reserves.lastDigitsOfNumber));
+    }
+
     return (
       <Layout headerTitle="Главная страница">
         <div className="page-wrapper">
           <div className="container">
             <div className="started-module">
               <div className="started-module__col">
-                <a href="/" className="started-module__logo">
+                <NavLink to={MAIN_PAGE} className="started-module__logo">
                   <img src={logo} alt="Foodworking logo" />
-                </a>
+                </NavLink>
                 <p className="started-module__description">
                   Добро пожаловать в фудворкинг!
                 </p>
@@ -32,14 +53,22 @@ const MainPage = inject("store")(
                         Для подтверждения брони введите 4 последних цифры телефона гостя,
                         указанного при бронировании
                       </p>
-                      <div className="segmented-input">
+                      <OtpInput
+                        value={state.otp}
+                        onChange={handleChange}
+                        numInputs={4}
+                        containerStyle="segmented-input"
+                        separator={false}
+                      />
+                      {/* <div className="segmented-input">
                         <input type="number" autocomplete="none" placeholder="•" />
                         <input type="number" autocomplete="none" placeholder="•" />
                         <input type="number" autocomplete="none" placeholder="•" />
                         <input type="number" autocomplete="none" placeholder="•" />
-                      </div>
-                      <button className="btn">Далее</button>
-                      <NavLink to={RESERVES_PAGE}>ReservesPage</NavLink>
+                      </div> */}
+                      <button className="btn" onClick={submitForm}>
+                        Далее
+                      </button>
                     </div>
                   </div>
                 </form>

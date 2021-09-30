@@ -1,9 +1,9 @@
 import axiosInstance from "../../api/api";
 
 export class ReservesAction {
-  getReservesData() {
-    const params = {digits: "0465"};
-    axiosInstance
+  getReservesData(lastDigitsOfNumber) {
+    const params = {digits: lastDigitsOfNumber};
+    return axiosInstance
       .get("admin/reservations/by-phone-number", {params})
       .then(({data}) => {
         console.log(data, "reserves");
@@ -16,5 +16,9 @@ export class ReservesAction {
 
   setReservesList(data) {
     this.reservesList = data;
+  }
+
+  setLastDigitsOfNumber(data) {
+    this.lastDigitsOfNumber = data;
   }
 }
