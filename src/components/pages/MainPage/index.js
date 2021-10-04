@@ -27,7 +27,6 @@ const MainPage = inject("store")(
       reserves.getReservesData(reserves.lastDigitsOfNumber).then(function (data) {
         history.push(RESERVES_PAGE + `?digits=${reserves.lastDigitsOfNumber}`);
       });
-      // console.log(reserves.getReservesData(reserves.lastDigitsOfNumber));
     }
 
     return (
@@ -60,12 +59,6 @@ const MainPage = inject("store")(
                         containerStyle="segmented-input"
                         separator={false}
                       />
-                      {/* <div className="segmented-input">
-                        <input type="number" autocomplete="none" placeholder="•" />
-                        <input type="number" autocomplete="none" placeholder="•" />
-                        <input type="number" autocomplete="none" placeholder="•" />
-                        <input type="number" autocomplete="none" placeholder="•" />
-                      </div> */}
                       <button className="btn" onClick={submitForm}>
                         Далее
                       </button>

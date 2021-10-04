@@ -14,7 +14,27 @@ export class ReservesAction {
       });
   }
 
+  reserveById(reservationId) {
+    return axiosInstance
+      .post(`admin/reservations/${reservationId}/confirm`)
+      .then(({data}) => {
+        console.log(data, "reserveById");
+        this.reservesList = this.reservesList.filter((item) => item.id !== reservationId);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  testReserveById(reservationId) {
+    return new Promise((resolve, reject) => {
+      this.reservesList = this.reservesList.filter((item) => item.id !== reservationId);
+      resolve();
+    });
+  }
+
   setReservesList(data) {
+    console.log("setReservesList", data);
     this.reservesList = data;
   }
 
