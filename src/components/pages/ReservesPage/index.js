@@ -1,17 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {inject, observer} from "mobx-react";
-import {NavLink, useLocation} from "react-router-dom";
-
-import arrow from "../../../common/images/svg/arrow.svg";
-import cross from "../../../common/images/svg/cross.svg";
-import warning from "../../../common/images/svg/warning.svg";
+import {useLocation} from "react-router-dom";
 
 import Layout from "../../segments/Layout";
 import TableSort from "./components/TableSort/TableSort";
+import Alert from "./components/Alert/Alert";
+import BreadCrumb from "./components/BreadCrumb/BreadCrumb";
 
 import {formatLastDigits, formatDate, formatPrice} from "./helpers";
 
 import {MAIN_PAGE} from "../../../consts/routes.const";
+import moment from "moment";
 
 const ReservesPage = inject("store")(
   observer(({store: {reserves}}) => {
@@ -24,28 +23,20 @@ const ReservesPage = inject("store")(
     useEffect(() => {
       if (!reserves.lastDigitsOfNumber) {
         reserves.setLastDigitsOfNumber(query.get("digits"));
-        reserves.getReservesData(reserves.lastDigitsOfNumber).then(() => {
-          console.log("then");
-
-          reserves.setReservesList(
-            reserves.reservesList?.map((item, index) => {
-              item.fullName = `${9 - index}`;
-
-              return item;
-            })
-          );
-        });
+        reserves.getReservesData(reserves.lastDigitsOfNumber);
       }
     }, [query, reserves]);
 
     function reserve(reserveId) {
       // reserves.reserveById(reserveId);
-      reserves.testReserveById(reserveId);
+      reserves
+        .testReserveById(reserveId)
+        .then((response) => {})
+        .catch((error) => {});
     }
 
     function sortReservesList(sortFn, isDesc) {
       let sorted = reserves.reservesList.sort(sortFn);
-      console.log("isDesc", isDesc);
       if (isDesc) {
         sorted.reverse();
       }
@@ -59,7 +50,6 @@ const ReservesPage = inject("store")(
           id: "fullname",
           title: "ФИО",
           sorting: (isDesc) => {
-            console.log("Name", isDesc);
             sortReservesList((a, b) => {
               if (a.fullName[0] < b.fullName[0]) {
                 return -1;
@@ -74,7 +64,21 @@ const ReservesPage = inject("store")(
           title: "Дата и время резерва",
           sorting: (isDesc) => {
             sortReservesList((a, b) => {
-              if (a.fullName[0] < b.fullName[0]) {
+              let aReservationDate = moment(a.reservationDate, "DD.MM.YYYY").format(
+                "YYYY-MM-DD"
+              );
+              let bReservationDate = moment(b.reservationDate, "DD.MM.YYYY").format(
+                "YYYY-MM-DD"
+              );
+
+              let aReservationStartDate = moment(
+                `${aReservationDate}T${a.reservationHours.from}`
+              ).format("YYYY-MM-DDTHH:mm:ss");
+              let bReservationStartDate = moment(
+                `${bReservationDate}T${b.reservationHours.from}`
+              ).format("YYYY-MM-DDTHH:mm:ss");
+
+              if (moment(aReservationStartDate).isAfter(bReservationStartDate)) {
                 return -1;
               } else {
                 return 1;
@@ -154,26 +158,14 @@ const ReservesPage = inject("store")(
         <div className="page-wrapper">
           <div className="container container-full">
             <div className="page">
-              <div className="page__top">
-                <NavLink to={MAIN_PAGE} className="icon-button">
-                  <img src={arrow} alt="Back button" />
-                </NavLink>
-                <p>
-                  Резервы для номера **** {formatLastDigits(reserves.lastDigitsOfNumber)}
-                </p>
-              </div>
+              <BreadCrumb
+                to={MAIN_PAGE}
+                text={`Резервы для номера **** ${formatLastDigits(
+                  reserves.lastDigitsOfNumber
+                )}`}
+              />
               <div className="page__content">
-                <div className="alert">
-                  <div className="alert__close">
-                    <img src={cross} alt="Close" />
-                  </div>
-                  <div className="alert__row">
-                    <div className="circle-icon circle-icon--warning">
-                      <img src={warning} alt="Warning" />
-                    </div>
-                    <p>Уточните фамилию гостя перед подтверждением бронирования</p>
-                  </div>
-                </div>
+                <Alert text="Уточните фамилию гостя перед подтверждением бронирования" />
                 {reserves.reservesList?.length && (
                   <TableSort skeleton={prepareSkeleton()} data={reserves.reservesList} />
                 )}

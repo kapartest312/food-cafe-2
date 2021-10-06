@@ -1,10 +1,19 @@
-import React, {useEffect, useState, componentDidMount} from "react";
+import React, {useState} from "react";
 import cn from "classnames";
 
 const TableWrapper = ({children, className, headers}) => {
   const [tableHeaders, setTableHeaders] = useState(headers);
 
   function onSort(header) {
+    let disablededActiveHeaders = tableHeaders.map((item) => {
+      if (item.id !== header.id) {
+        item.isDesc = false;
+      }
+      return item;
+    });
+
+    setTableHeaders(disablededActiveHeaders);
+
     header.sorting.bind(this, header.isDesc)();
     header.isDesc = !header.isDesc;
   }
@@ -18,7 +27,10 @@ const TableWrapper = ({children, className, headers}) => {
               <th key={header.id}>
                 {header.type !== "empty" && (
                   <div
-                    className={cn("th-button th-button--sorting", header.className)}
+                    className={cn(
+                      "th-button th-button--sorting",
+                      header.isDesc && "th-button--rotate"
+                    )}
                     onClick={onSort.bind(this, header)}
                   >
                     <span>{header.title}</span>

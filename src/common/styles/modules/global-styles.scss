@@ -139,14 +139,20 @@ $sm: 767px;
     height: inherit;
   }
 
-  .segmented-input {
-    margin: auto 0;
-    @media screen and (max-width: 992px) {
-      margin: 30px 0;
-    }
-  }
   .btn {
     width: 100%;
+  }
+}
+
+.segmented-input-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto 0;
+
+  @media screen and (max-width: 992px) {
+    margin: 30px 0;
   }
 }
 
@@ -164,6 +170,10 @@ $sm: 767px;
     font-size: 24px;
     color: #000;
     outline: none;
+
+    &.error {
+      border-color: #c01d1d;
+    }
   }
 
   input::-webkit-outer-spin-button,
@@ -175,6 +185,21 @@ $sm: 767px;
   /* Firefox */
   input[type="number"] {
     -moz-appearance: textfield;
+  }
+
+  &__error-text {
+    display: none;
+    position: absolute;
+    bottom: -30px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #c01d1d;
+    text-align: center;
+    max-width: 100%;
+
+    &.show {
+      display: block;
+    }
   }
 }
 
@@ -291,6 +316,10 @@ $sm: 767px;
   position: relative;
   font-weight: 500;
   font-size: 14px;
+  opacity: 1;
+  overflow: hidden;
+  visibility: visible;
+
   &__close {
     position: absolute;
     z-index: 2;
@@ -308,6 +337,16 @@ $sm: 767px;
   .circle-icon {
     flex-shrink: 0;
     margin-right: 13px;
+  }
+
+  &.closed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.5s ease-out, padding-top 0.5s ease-out,
+      padding-bottom 0.5s ease-out, opacity 0.5s ease-out, visibility 0s 0.5s;
   }
 }
 
@@ -347,6 +386,7 @@ $sm: 767px;
 }
 
 .th-button {
+  user-select: none;
   &--sorting {
     cursor: pointer;
     position: relative;
@@ -360,11 +400,18 @@ $sm: 767px;
       background: url("../../../common/images/svg/arrow-sorting.svg") center no-repeat;
       background-size: contain;
       margin-left: 5px;
+      transition: transform 0.2s ease;
     }
   }
   &.is-active {
     span {
       color: #4b556f !important;
+    }
+  }
+
+  &--rotate {
+    &:after {
+      transform: rotate(-180deg);
     }
   }
 }

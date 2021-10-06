@@ -6,7 +6,6 @@ export class ReservesAction {
     return axiosInstance
       .get("admin/reservations/by-phone-number", {params})
       .then(({data}) => {
-        console.log(data, "reserves");
         this.setReservesList(data);
       })
       .catch((err) => {
@@ -18,7 +17,6 @@ export class ReservesAction {
     return axiosInstance
       .post(`admin/reservations/${reservationId}/confirm`)
       .then(({data}) => {
-        console.log(data, "reserveById");
         this.reservesList = this.reservesList.filter((item) => item.id !== reservationId);
       })
       .catch((err) => {
@@ -34,7 +32,6 @@ export class ReservesAction {
   }
 
   setReservesList(data) {
-    console.log("setReservesList", data);
     this.reservesList = data;
   }
 

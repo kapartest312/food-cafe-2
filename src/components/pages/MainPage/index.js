@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {inject, observer} from "mobx-react";
 import {useHistory} from "react-router-dom";
 import {NavLink} from "react-router-dom";
-import OtpInput from "react-otp-input";
+import SearchReservesInput from "./components/SearchReservesInput/SearchReservesInput";
 
 import logo from "../../../common/images/svg/logo.svg";
 
@@ -13,20 +13,31 @@ import {RESERVES_PAGE, MAIN_PAGE} from "../../../consts/routes.const";
 const MainPage = inject("store")(
   observer(({store: {reserves}}) => {
     let history = useHistory();
-    const [state, setState] = useState("");
+    const [isHasntReserves, setIsHasntReserves] = useState(false);
+    const [errorText, setErrorText] = useState("");
 
-    function handleChange(otp) {
-      if (otp.length === 4) {
-        reserves.setLastDigitsOfNumber(otp);
+    function handleChange(otpInputData) {
+      setIsHasntReserves(false);
+
+      if (otpInputData.length === 4) {
+        reserves.setLastDigitsOfNumber(otpInputData);
+        submitForm();
       }
-      setState({otp});
     }
 
     function submitForm(event) {
-      event.preventDefault();
-      reserves.getReservesData(reserves.lastDigitsOfNumber).then(function (data) {
-        history.push(RESERVES_PAGE + `?digits=${reserves.lastDigitsOfNumber}`);
-      });
+      if (event) {
+        event.preventDefault();
+      }
+      reserves
+        .getReservesData(reserves.lastDigitsOfNumber)
+        .then(function (data) {
+          history.push(RESERVES_PAGE + `?digits=${reserves.lastDigitsOfNumber}`);
+        })
+        .catch((error) => {
+          setIsHasntReserves(true);
+          setErrorText(error.data.errors[0]);
+        });
     }
 
     return (
@@ -52,12 +63,10 @@ const MainPage = inject("store")(
                         Для подтверждения брони введите 4 последних цифры телефона гостя,
                         указанного при бронировании
                       </p>
-                      <OtpInput
-                        value={state.otp}
+                      <SearchReservesInput
                         onChange={handleChange}
-                        numInputs={4}
-                        containerStyle="segmented-input"
-                        separator={false}
+                        hasErrored={isHasntReserves}
+                        errorText={errorText}
                       />
                       <button className="btn" onClick={submitForm}>
                         Далее

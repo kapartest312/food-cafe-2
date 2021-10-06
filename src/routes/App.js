@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Provider} from "mobx-react";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import {toast, ToastContainer} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 
 import "rc-time-picker/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
