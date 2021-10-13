@@ -10,7 +10,7 @@ const ButtonPrimary = ({
   image,
   isVisible = true,
   children,
-  buttonColor,
+  buttonColor = "primary" | "danger" | "default",
 }) => {
   if (!isVisible) return null;
 
@@ -20,7 +20,9 @@ const ButtonPrimary = ({
       onSubmit={onSubmit}
       onClick={onClick}
       type={type}
-      className={cn("btn-custom", className, buttonColor, {_disabled: disabled})}
+      className={cn("btn-custom btn-primary", className, buttonColor, {
+        _disabled: disabled,
+      })}
     >
       {image && <img src={image} alt="icon" />}
       {children}

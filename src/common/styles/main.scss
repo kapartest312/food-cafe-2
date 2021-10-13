@@ -2,6 +2,7 @@
 @import "base/normalize";
 @import "base/fonts";
 @import "base/variables";
+@import "base/variables-media";
 @import "base/mixins";
 
 // Global
@@ -15,3 +16,6 @@
 
 // Pages
 @import "modules/pages/z-main-of-pages";
+
+// Media
+@import "modules/global-styles-media";

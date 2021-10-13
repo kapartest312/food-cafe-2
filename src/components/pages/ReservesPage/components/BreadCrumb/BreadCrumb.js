@@ -5,11 +5,11 @@ import arrow from "../../../../../common/images/svg/arrow.svg";
 
 const BreadCrumb = ({to, text}) => {
   return (
-    <div className="page__top">
-      <NavLink to={to} className="icon-button">
+    <div className="reserves-page_head__wrapper">
+      <NavLink to={to} className="reserves-page_head__back">
         <img src={arrow} alt="Back button" />
       </NavLink>
-      <p>{text}</p>
+      <p className="reserves-page_head__text">{text}</p>
     </div>
   );
 };

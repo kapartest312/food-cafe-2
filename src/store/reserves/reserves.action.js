@@ -16,9 +16,7 @@ export class ReservesAction {
   reserveById(reservationId) {
     return axiosInstance
       .post(`admin/reservations/${reservationId}/confirm`)
-      .then(({data}) => {
-        this.reservesList = this.reservesList.filter((item) => item.id !== reservationId);
-      })
+      .then(() => {})
       .catch((err) => {
         throw err;
       });

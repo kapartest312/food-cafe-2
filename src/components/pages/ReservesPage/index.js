@@ -1,50 +1,124 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {inject, observer} from "mobx-react";
 import {useLocation} from "react-router-dom";
+import {useMediaQuery} from "react-responsive";
+import {toast} from "react-toastify";
+import moment from "moment";
 
 import Layout from "../../segments/Layout";
+import ModalError from "../../modals/ModalError";
+import ButtonLink from "../../buttons/ButtonLink";
+import ModalSuccess from "../../modals/ModalSuccess";
+import ButtonPrimary from "../../buttons/ButtonPrimary";
+import {IconCalendar, IconCheck, IconNotice, IconUser} from "../../Icons";
+
 import TableSort from "./components/TableSort/TableSort";
-import Alert from "./components/Alert/Alert";
 import BreadCrumb from "./components/BreadCrumb/BreadCrumb";
+import Alert from "./components/Alert/Alert";
 
-import {formatLastDigits, formatDate, formatPrice} from "./helpers";
-
+import {formatLastDigits, formatPrice} from "./helpers";
 import {MAIN_PAGE} from "../../../consts/routes.const";
-import moment from "moment";
 
 const ReservesPage = inject("store")(
   observer(({store: {reserves}}) => {
-    function useQuery() {
-      return new URLSearchParams(useLocation().search);
-    }
+    const [fetching, setFetching] = useState(true);
+    const [errorModalVisible, setErrorModalVisible] = useState(false);
+    const [successModalVisible, setSuccessModalVisible] = useState(false);
+    const [errorText, setErrorText] = useState("");
 
+    const isBigTablet = useMediaQuery({minWidth: 768, maxWidth: 991});
+    const isSmallTablet = useMediaQuery({minWidth: 320, maxWidth: 767});
+
+    const useQuery = () => {
+      return new URLSearchParams(useLocation().search);
+    };
     let query = useQuery();
 
     useEffect(() => {
-      if (!reserves.lastDigitsOfNumber) {
+      if (query.get("digits")) {
+        setFetching(true);
         reserves.setLastDigitsOfNumber(query.get("digits"));
-        reserves.getReservesData(reserves.lastDigitsOfNumber);
+        reserves
+          .getReservesData(query.get("digits"))
+          .catch((error) => {
+            if (error) {
+              setErrorText(error.data?.errors[0]);
+            } else
+              toast.error("Непредвиденная ошибка. Поробуйте перезагрузить страницу.");
+          })
+          .finally(() => {
+            setTimeout(() => {
+              setFetching(false);
+            }, 200);
+          });
       }
-    }, [query, reserves]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [query.get("digits")]);
 
-    function reserve(reserveId) {
-      // reserves.reserveById(reserveId);
+    const formatDate = (date, hours) => {
+      let formatedDate = moment(date, "DD.MM.YYYY").format("DD MMM");
+      let formatedHours = moment(hours, "HH:mm:ss").format("HH:mm");
+      return isSmallTablet ? (
+        <>
+          <span>{formatedDate}</span>
+          <span>{formatedHours}</span>
+        </>
+      ) : (
+        <>
+          {formatedDate} / {formatedHours}
+        </>
+      );
+    };
+
+    const reserve = (reserveId) => {
+      setFetching(true);
+      // reserves.reserveById(reserveId)
       reserves
         .testReserveById(reserveId)
-        .then((response) => {})
-        .catch((error) => {});
-    }
+        .then((response) => setSuccessModalVisible(true))
+        .catch((error) => setErrorModalVisible(true))
+        .finally(() => {
+          setTimeout(() => {
+            setFetching(false);
+          }, 200);
+        });
+    };
 
-    function sortReservesList(sortFn, isDesc) {
-      let sorted = reserves.reservesList.sort(sortFn);
+    const sortReservesList = (sortFn, isDesc) => {
+      let sorted = reserves.reservesList.slice().sort(sortFn);
       if (isDesc) {
         sorted.reverse();
       }
-
       reserves.setReservesList(sorted);
-    }
+    };
 
-    function prepareSkeleton() {
+    const renderRows = (data) => {
+      return data?.map((item, index) => {
+        return {
+          fullname: () => (
+            <div className="user-info">
+              <h3 className="user-info__title">{item.fullName}</h3>
+              <h4 className="user-info__subtitle">{item.network?.name}</h4>
+            </div>
+          ),
+          datetime: () => formatDate(item.reservationDate, item.reservationHours.from),
+          guests: () => item.peopleCount,
+          amount: () => formatPrice(item.price),
+          action: () =>
+            isSmallTablet ? (
+              <ButtonPrimary onClick={reserve.bind(item.id)} buttonColor="primary">
+                <IconCheck color="#FFFFFF" />
+              </ButtonPrimary>
+            ) : (
+              <ButtonPrimary onClick={reserve.bind(item.id)} buttonColor="primary">
+                Подтвердить
+              </ButtonPrimary>
+            ),
+        };
+      });
+    };
+
+    const prepareSkeleton = useCallback(() => {
       let headers = [
         {
           id: "fullname",
@@ -61,7 +135,13 @@ const ReservesPage = inject("store")(
         },
         {
           id: "datetime",
-          title: "Дата и время резерва",
+          title: isSmallTablet ? (
+            <IconCalendar color="#9399A8" />
+          ) : isBigTablet ? (
+            "Дата и время"
+          ) : (
+            "Дата и время резерва"
+          ),
           sorting: (isDesc) => {
             sortReservesList((a, b) => {
               let aReservationDate = moment(a.reservationDate, "DD.MM.YYYY").format(
@@ -88,7 +168,7 @@ const ReservesPage = inject("store")(
         },
         {
           id: "guests",
-          title: "Гости",
+          title: isSmallTablet ? <IconUser color="#9399A8" /> : "Гости",
           sorting: (isDesc) => {
             sortReservesList((a, b) => {
               if (a.peopleCount < b.peopleCount) {
@@ -101,7 +181,13 @@ const ReservesPage = inject("store")(
         },
         {
           id: "amount",
-          title: "Сумма депозита",
+          title: isSmallTablet ? (
+            <IconNotice color="#9399A8" />
+          ) : isBigTablet ? (
+            "Депозит"
+          ) : (
+            "Сумма депозита"
+          ),
           sorting: (isDesc) => {
             sortReservesList((a, b) => {
               if (a.price < b.price) {
@@ -119,60 +205,84 @@ const ReservesPage = inject("store")(
         },
       ];
 
-      function rows(data) {
-        let self = this;
-        return data?.map((item, index) => {
-          return {
-            fullname: () => (
-              <div className="user-info">
-                <h3 className="user-info__title">{item.fullName}</h3>
-                <h4 className="user-info__subtitle">{item.network?.name}</h4>
-              </div>
-            ),
-            datetime: () => formatDate(item.reservationDate, item.reservationHours.from),
-            guests: () => item.peopleCount,
-            amount: () => formatPrice(item.price),
-            action: () => (
-              <div className="td-buttons">
-                <a
-                  href="#"
-                  className="btn btn--size-small"
-                  onClick={reserve.bind(self, item.id)}
-                >
-                  Подтвердить
-                </a>
-              </div>
-            ),
-          };
-        });
-      }
-
       return {
         headers: headers,
-        rows: rows,
+        rows: renderRows,
       };
-    }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isBigTablet, isSmallTablet, renderRows]);
+
+    const content = useMemo(() => {
+      if (fetching) {
+        return (
+          <div className="skeleton_list__wrapper">
+            <div className="skeleton_item__wrapper _head" />
+            <div className="skeleton_item__wrapper" />
+            <div className="skeleton_item__wrapper" />
+            <div className="skeleton_item__wrapper" />
+            <div className="skeleton_item__wrapper" />
+          </div>
+        );
+      }
+
+      if (reserves.reservesList?.length <= 0) {
+        return (
+          <div className="reserves-page_placeholder__wrapper">
+            <p>Нет совпадений по номеру {reserves.lastDigitsOfNumber}</p>
+            <div className="reserves-page_placeholder__actions">
+              <ButtonLink hrefTo={MAIN_PAGE} buttonColor="primary">
+                На главную
+              </ButtonLink>
+            </div>
+          </div>
+        );
+      }
+
+      if (reserves.reservesList?.length > 0) {
+        return <TableSort skeleton={prepareSkeleton()} data={reserves.reservesList} />;
+      }
+
+      return (
+        <div className="reserves-page_placeholder__wrapper">
+          <p>Ошибка по номеру {reserves.lastDigitsOfNumber}</p>
+          {errorText && <p>{errorText}</p>}
+          <div className="reserves-page_placeholder__actions">
+            <ButtonLink hrefTo={MAIN_PAGE} buttonColor="primary">
+              На главную
+            </ButtonLink>
+          </div>
+        </div>
+      );
+    }, [
+      errorText,
+      fetching,
+      reserves.lastDigitsOfNumber,
+      prepareSkeleton,
+      reserves.reservesList,
+    ]);
 
     return (
-      <Layout headerTitle="Резервы">
-        <div className="page-wrapper">
-          <div className="container container-full">
-            <div className="page">
-              <BreadCrumb
-                to={MAIN_PAGE}
-                text={`Резервы для номера **** ${formatLastDigits(
-                  reserves.lastDigitsOfNumber
-                )}`}
-              />
-              <div className="page__content">
-                <Alert text="Уточните фамилию гостя перед подтверждением бронирования" />
-                {reserves.reservesList?.length && (
-                  <TableSort skeleton={prepareSkeleton()} data={reserves.reservesList} />
-                )}
+      <Layout headerTitle="Резервы" className="reserves-page_layout">
+        <>
+          <div className="reserves-page_wrapper">
+            <div className="container container-full">
+              <div className="reserves-page_inner-wrapper">
+                <BreadCrumb
+                  to={MAIN_PAGE}
+                  text={`Резервы для номера **** ${formatLastDigits(
+                    reserves.lastDigitsOfNumber
+                  )}`}
+                />
+                <div className="reserves-page_body">
+                  <Alert text="Уточните фамилию гостя перед подтверждением бронирования" />
+                  {content}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          <ModalError isVisible={errorModalVisible} />
+          <ModalSuccess isVisible={successModalVisible} />
+        </>
       </Layout>
     );
   })
