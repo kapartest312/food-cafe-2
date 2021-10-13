@@ -1,0 +1,16 @@
+.layout {
+  &_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("../../../../images/background.png") center no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    position: relative;
+  }
+  &_inner-wrapper {
+    // padding: 15px;
+    width: 100%;
+    transition: 0.2s;
+  }
+}

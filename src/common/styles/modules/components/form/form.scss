@@ -1,0 +1,19 @@
+.form-field {
+  &_wrapper {
+    margin-bottom: 20px;
+    display: flex;
+  }
+  &_label {
+    margin-right: 25px;
+    margin-bottom: 10px;
+    flex: 0 0 auto;
+  }
+  &_inner-wrapper {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+  &_error {
+    color: $dangerColor;
+    margin: 0;
+  }
+}

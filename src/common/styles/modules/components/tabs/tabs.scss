@@ -1,0 +1,19 @@
+.tabs {
+  width: 100%;
+  margin-bottom: 20px;
+  &__tab {
+    width: 100px;
+    height: 50px;
+    background: #ffffff;
+    border-radius: 5px;
+    color: #000000;
+    border: 1px solid;
+    &:first-child {
+      margin-right: 20px;
+    }
+  }
+  &__active {
+    background: #7374a3;
+    color: #ffffff;
+  }
+}

@@ -1,0 +1,17 @@
+.reserves-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: normal;
+  &__column {
+    margin-bottom: 20px;
+    display: flex;
+    div {
+      width: 20%;
+      span {
+        font-size: 13px;
+        color: #7374a3;
+      }
+    }
+  }
+}
