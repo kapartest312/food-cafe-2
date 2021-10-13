@@ -12,6 +12,7 @@ import {MAIN_PAGE, RESERVES_PAGE} from "../consts/routes.const";
 
 import MainPageLayout from "../pages/MainPageLayout";
 import ReservesPageLayout from "../pages/ReservesPageLayout";
+import ErrorPageLayout from "../pages/ErrorPageLayout";
 
 export const App = () => {
   return (
@@ -21,6 +22,7 @@ export const App = () => {
           <Switch>
             <Route exact path={MAIN_PAGE} component={MainPageLayout} />
             <Route path={RESERVES_PAGE} component={ReservesPageLayout} />
+            <Route component={ErrorPageLayout} />
           </Switch>
         </Router>
       </Provider>

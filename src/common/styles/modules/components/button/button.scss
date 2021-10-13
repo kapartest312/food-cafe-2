@@ -3,7 +3,6 @@
   justify-content: center;
   align-items: center;
   font-size: $bsFontSize;
-  font-family: $primaryFontBold;
   text-decoration: none;
   text-align: center;
   border-radius: $bsBorderRadius;
@@ -12,18 +11,56 @@
   border: 1px solid $primaryColor;
   transition: 0.2s;
   cursor: pointer;
-  padding: 5px 10px;
-  color: $textColorPrimary;
-  background-color: $textColorWhite;
+  padding: 10px;
+  color: $white;
+  background-color: $primaryColor;
   &:hover {
     background-color: $white-lilac;
   }
-  &._danger {
+}
+
+.btn-custom.btn-primary,
+.btn-custom.btn-link{
+  &.danger {
     background-color: $dangerColor;
     border-color: $dangerColor;
     color: $textColorWhite;
     &:hover {
       background-color: $dangerColorHover;
+      border-color: $dangerColorHover;
+    }
+    &:disabled,
+    &[disabled]{
+      border-color: $dangerColorLighten;
+      background-color: $dangerColorLighten;
+    }
+  }
+  &.primary{
+    background-color: $primaryColor;
+    border-color: $primaryColor;
+    color: $white;
+    &:hover {
+      background-color: $primaryColorHover;
+      border-color: $primaryColorHover;
+    }
+    &:disabled,
+    &[disabled]{
+      border-color: $primaryColorLighten;
+      background-color: $primaryColorLighten;
+    }
+  }
+  &.default{
+    background-color: $defaultColor;
+    border-color: $defaultColor;
+    color: $textColorPrimary;
+    &:hover {
+      background-color: $defaultColorHover;
+      border-color: $defaultColorHover;
+    }
+    &:disabled,
+    &[disabled]{
+      border-color: $defaultColorLighten;
+      background-color: $defaultColorLighten;
     }
   }
 }

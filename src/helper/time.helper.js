@@ -1,5 +1,4 @@
 import {getStorage} from "../services/storage.service";
-import {ACCESS_TOKEN_EXPIRES} from "../consts/auth.const";
 
 export const convertDaeToISOFormat = (time) => {
   // convert date format from dd.mm.yyyy HH:mm:ssZ (20.09.2021 05:57:53Z)

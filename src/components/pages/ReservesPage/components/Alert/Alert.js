@@ -14,15 +14,15 @@ const Alert = inject("store")(
     }
 
     return (
-      <div className={cn("alert", isClosed && "closed")}>
-        <div className="alert__close" onClick={closeAlert}>
+      <div className={cn("alert_wrapper", isClosed && "closed")}>
+        <button type="button" className="alert_close" onClick={closeAlert}>
           <img src={cross} alt="Close" />
-        </div>
-        <div className="alert__row">
+        </button>
+        <div className="alert_row">
           <div className="circle-icon circle-icon--warning">
             <img src={warning} alt="Warning" />
           </div>
-          <p>{text}</p>
+          <p className="alert_text">{text}</p>
         </div>
       </div>
     );

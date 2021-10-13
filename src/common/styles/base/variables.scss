@@ -12,9 +12,9 @@ $seashell: #f1f1f1;
 $white-lilac: #e3e4f5;
 
 // Project Colors
-$primaryColor: #2e3074;
-$primaryColorHover: #2e30aa;
-$primaryColorLighten: $kimberly;
+$primaryColor: #4b556f;
+$primaryColorHover: #5a6685;
+$primaryColorLighten: #7d8392;
 
 $secondaryColor: #f6a300;
 $secondaryColorHover: #f6a361;
@@ -26,9 +26,9 @@ $successColorLighten: #96d336;
 
 $dangerColor: #ea5f60;
 $dangerColorHover: #ff7261;
-$dangerColorLighten: #ff7261;
+$dangerColorLighten: #f68173;
 
-$defaultColor: $white;
+$defaultColor: $light-gray;
 $defaultColorHover: $white-lilac;
 $defaultColorLighten: $titan-white;
 
@@ -57,7 +57,7 @@ $textColorLightSecondary: $secondaryColorHover;
 // Border-radius
 $smBorderRadius: 4px;
 $mdBorderRadius: 8px;
-$bsBorderRadius: 12px;
+$bsBorderRadius: 16px;
 $circleBorderRadius: 50%;
 $roundBorderRadius: 55px;
 
