@@ -49,7 +49,7 @@
     }
   }
 
-  &_clear{
+  &_clear {
     position: absolute;
     top: calc(100% + 40px);
     left: 50%;
@@ -62,9 +62,9 @@
     border: 0;
     border-radius: $circleBorderRadius;
     cursor: pointer;
-    transition: .3s;
+    transition: 0.3s;
     background-color: $titan-white;
-    &:hover{
+    &:hover {
       background-color: $light-gray;
     }
   }

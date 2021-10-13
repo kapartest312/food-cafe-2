@@ -1,5 +1,5 @@
 .started-module {
-  &_wrapper{
+  &_wrapper {
     display: flex;
     width: 100%;
     padding: 50px 0;
@@ -18,16 +18,16 @@
   &_col {
     width: 50%;
     display: flex;
-    &._left-side{
+    &._left-side {
       padding-top: 60px;
       flex-direction: column;
     }
-    &._right-side{
+    &._right-side {
       justify-content: flex-end;
     }
   }
-  &_form{
-    &__wrapper{
+  &_form {
+    &__wrapper {
       display: flex;
       background: #fff;
       padding: 60px 50px;
@@ -53,7 +53,7 @@
       display: flex;
       flex-direction: column;
       height: inherit;
-      .btn-custom{
+      .btn-custom {
         padding-top: 15px;
         padding-bottom: 15px;
       }

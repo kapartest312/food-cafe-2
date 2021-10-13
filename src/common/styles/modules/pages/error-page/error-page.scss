@@ -1,7 +1,7 @@
 .error-page {
-  &_wrapper{
+  &_wrapper {
     padding: 50px 0;
-    .container{
+    .container {
       justify-content: center;
     }
   }
@@ -27,14 +27,14 @@
       line-height: $xlLineHeight;
       text-align: center;
     }
-    &__text{
+    &__text {
       margin-bottom: 20px;
       text-align: center;
     }
-    &__actions{
+    &__actions {
       display: flex;
       justify-content: center;
-      .btn-custom{
+      .btn-custom {
         padding: 15px 70px;
       }
     }

@@ -20,7 +20,7 @@
 }
 
 .btn-custom.btn-primary,
-.btn-custom.btn-link{
+.btn-custom.btn-link {
   &.danger {
     background-color: $dangerColor;
     border-color: $dangerColor;
@@ -30,12 +30,12 @@
       border-color: $dangerColorHover;
     }
     &:disabled,
-    &[disabled]{
+    &[disabled] {
       border-color: $dangerColorLighten;
       background-color: $dangerColorLighten;
     }
   }
-  &.primary{
+  &.primary {
     background-color: $primaryColor;
     border-color: $primaryColor;
     color: $white;
@@ -44,12 +44,12 @@
       border-color: $primaryColorHover;
     }
     &:disabled,
-    &[disabled]{
+    &[disabled] {
       border-color: $primaryColorLighten;
       background-color: $primaryColorLighten;
     }
   }
-  &.default{
+  &.default {
     background-color: $defaultColor;
     border-color: $defaultColor;
     color: $textColorPrimary;
@@ -58,7 +58,7 @@
       border-color: $defaultColorHover;
     }
     &:disabled,
-    &[disabled]{
+    &[disabled] {
       border-color: $defaultColorLighten;
       background-color: $defaultColorLighten;
     }

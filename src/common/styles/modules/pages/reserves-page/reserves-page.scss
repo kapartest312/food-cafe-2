@@ -1,13 +1,13 @@
 .reserves-page {
-  &_wrapper{
+  &_wrapper {
     padding: 10vh 0;
     height: calc(100vh);
     display: flex;
-    .container{
+    .container {
       height: 100%;
     }
   }
-  &_inner-wrapper{
+  &_inner-wrapper {
     position: relative;
     background: #fafafa;
     box-shadow: 0 2px 17px rgba(120, 120, 120, 0.1);
@@ -19,7 +19,7 @@
   }
 
   &_head {
-    &__wrapper{
+    &__wrapper {
       position: sticky;
       top: 0;
       width: 100%;
@@ -34,7 +34,7 @@
       z-index: 1;
       flex: 0 0 auto;
     }
-    &__back{
+    &__back {
       width: 40px;
       height: 40px;
       display: flex;
@@ -46,7 +46,7 @@
       img {
         height: 16px;
       }
-      &:hover{
+      &:hover {
         background-color: $light-gray;
       }
     }
@@ -55,33 +55,33 @@
     padding: 0 15px 15px;
     width: 100%;
     overflow-y: auto;
-    height: calc(100% - 65px)
+    height: calc(100% - 65px);
   }
-  &_placeholder{
-    &__wrapper{
+  &_placeholder {
+    &__wrapper {
       padding: 10vh 15px;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      p{
+      p {
         text-align: center;
         margin-bottom: 20px;
       }
     }
-    &__actions{
-      .btn-custom{
+    &__actions {
+      .btn-custom {
         padding: 10px 40px;
       }
     }
   }
 
-  &_table{
-    &__wrapper{
+  &_table {
+    &__wrapper {
       margin-top: 20px;
     }
-    &__head{
-      &._wrapper{
+    &__head {
+      &._wrapper {
         position: sticky;
         top: 0;
         display: flex;
@@ -92,32 +92,32 @@
         border-radius: $mdBorderRadius;
         box-shadow: 0 1px 1px rgba(120, 120, 120, 0.1);
       }
-      &._item-col{
-        color: #9399A8;
+      &._item-col {
+        color: #9399a8;
         font-size: $xsFontSize;
         line-height: $xsLineHeight;
-        transition: .2s;
-        &:hover{
+        transition: 0.2s;
+        &:hover {
           background-color: #ededed;
         }
-        &:first-child{
+        &:first-child {
           border-radius: $mdBorderRadius 0 0 $mdBorderRadius;
         }
-        &:last-child{
+        &:last-child {
           border-radius: 0 $mdBorderRadius $mdBorderRadius 0;
         }
-        .th-button{
+        .th-button {
           justify-content: center;
           padding: 16px 0;
-          span{
+          span {
             display: inline-flex;
             align-items: center;
           }
         }
       }
     }
-    &__body{
-      &._item-row{
+    &__body {
+      &._item-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -128,40 +128,41 @@
         box-shadow: 0 2px 17px rgba(120, 120, 120, 0.1);
       }
     }
-    &__head, &__body{
-      &._item-col{
-        &:first-child{
+    &__head,
+    &__body {
+      &._item-col {
+        &:first-child {
           padding-left: 16px;
         }
-        &:last-child{
+        &:last-child {
           padding-right: 16px;
         }
-        &._fullname{
+        &._fullname {
           width: 50%;
           max-width: 420px;
-          .th-button{
+          .th-button {
             justify-content: flex-start;
           }
         }
-        &._datetime{
+        &._datetime {
           width: 160px;
           text-align: center;
           flex: 0 0 auto;
           margin: 0 10px;
         }
-        &._guests{
+        &._guests {
           width: 70px;
           text-align: center;
           flex: 0 0 auto;
           margin: 0 10px;
         }
-        &._amount{
+        &._amount {
           width: 125px;
           text-align: center;
           flex: 0 0 auto;
           margin: 0 10px;
         }
-        &._action{
+        &._action {
           width: 146px;
           flex: 0 0 auto;
           display: inline-flex;
@@ -178,7 +179,7 @@
 }
 
 .alert {
-  &_wrapper{
+  &_wrapper {
     background: rgba(253, 142, 62, 0.1);
     border-radius: $mdBorderRadius;
     padding: 20px 40px 20px 15px;
@@ -197,7 +198,8 @@
       opacity: 0;
       visibility: hidden;
       transition: max-height 0.5s ease-out, padding-top 0.5s ease-out,
-      padding-bottom 0.5s ease-out, opacity 0.5s ease-out, visibility 0s 0.5s, margin-top 0.5s;
+        padding-bottom 0.5s ease-out, opacity 0.5s ease-out, visibility 0s 0.5s,
+        margin-top 0.5s;
     }
     .circle-icon {
       width: 22px;
@@ -233,11 +235,11 @@
     align-items: center;
     justify-content: center;
     border-radius: $circleBorderRadius;
-    transition: .3s;
+    transition: 0.3s;
     img {
-      width: 50%
+      width: 50%;
     }
-    &:hover{
+    &:hover {
       background-color: rgba(253, 142, 62, 0.7);
     }
   }
@@ -280,7 +282,8 @@
       display: block;
       width: 12px;
       height: 12px;
-      background: url("../../../../../common/images/svg/arrow-sorting.svg") center no-repeat;
+      background: url("../../../../../common/images/svg/arrow-sorting.svg") center
+        no-repeat;
       background-size: contain;
       margin-left: 5px;
       transition: transform 0.2s ease;
@@ -299,28 +302,27 @@
   }
 }
 
-
 @keyframes fadeAnimation {
-  0%{
-    opacity: 1
+  0% {
+    opacity: 1;
   }
-  50%{
+  50% {
     opacity: 0.5;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
 
-.skeleton{
-  &_item__wrapper{
+.skeleton {
+  &_item__wrapper {
     width: 100%;
     margin-top: 12px;
     height: 62px;
     border-radius: 12px;
     background-color: #ddd;
     animation: fadeAnimation 1.2s infinite;
-    &._head{
+    &._head {
       height: 46px;
       margin-top: 20px;
     }
