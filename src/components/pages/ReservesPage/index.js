@@ -72,9 +72,8 @@ const ReservesPage = inject("store")(
 
     const reserve = (reserveId) => {
       setFetching(true);
-      // reserves.reserveById(reserveId)
       reserves
-        .testReserveById(reserveId)
+        .reserveById(reserveId)
         .then((response) => setSuccessModalVisible(true))
         .catch((error) => setErrorModalVisible(true))
         .finally(() => {
@@ -106,11 +105,11 @@ const ReservesPage = inject("store")(
           amount: () => formatPrice(item.price),
           action: () =>
             isSmallTablet ? (
-              <ButtonPrimary onClick={reserve.bind(item.id)} buttonColor="primary">
+              <ButtonPrimary onClick={() => reserve(item.id)} buttonColor="primary">
                 <IconCheck color="#FFFFFF" />
               </ButtonPrimary>
             ) : (
-              <ButtonPrimary onClick={reserve.bind(item.id)} buttonColor="primary">
+              <ButtonPrimary onClick={() => reserve(item.id)} buttonColor="primary">
                 Подтвердить
               </ButtonPrimary>
             ),
